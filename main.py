@@ -2,6 +2,9 @@ import sys
 from datetime import datetime
 shopItems = {}
 #Dictionary of items and their quantities
+
+
+#------------------------------------------------------------------------------------------------------------------------------
 with open("database.txt", "r") as file:
     for line in file:
         if ":" in line:
@@ -13,6 +16,7 @@ with open("database.txt", "r") as file:
 
             # This creates the nested dictionary
             shopItems[name] = {"quantity": quantity, "price": price}
+#------------------------------------------------------------------------------------------------------------------------------
 def save_data():
     with open("database.txt", "w") as file:
         for name, data in shopItems.items():
