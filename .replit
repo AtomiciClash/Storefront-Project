@@ -1,0 +1,33 @@
+entrypoint = "index.html"
+modules = ["python-3.11", "web"]
+
+[nix]
+channel = "stable-24_11"
+packages = ["static-web-server"]
+
+[deployment]
+publicDir = "/"
+deploymentTarget = "static"
+
+[workflows]
+runButton = "Serve static"
+
+[[workflows.workflow]]
+name = "Serve static"
+mode = "parallel"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "python3 main.py"
+
+[[ports]]
+localPort = 80
+externalPort = 80
+
+[agent]
+expertMode = true
+
+[userenv]
+
+[userenv.shared]
+password = "yuhui"

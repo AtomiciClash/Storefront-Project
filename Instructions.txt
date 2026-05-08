@@ -1,0 +1,14 @@
+Part 1
+As a store owner, I would like a system that allows me to manage parts inventory. 
+This system should let me: 
+Add and remove parts from my inventory
+Add and remove the quantity of a given part
+Show how much I purchased it for and how much I am selling it for
+State how much I have in stock
+I would like to be able to shut down this program at the end of each day and reopen the system to view past inventory and modify what was saved. 
+I would also like to print a report showing revenue by product and the total revenue at my store. 
+
+Part 2
+As a store owner, I would like a system that allows me to manage my store inventory and sell items to customers. 
+Customers must not be able to access my menus, only theirs.
+During a sale to a customer, the system should create a receipt that the customer can review, showing the items purchased and any applicable taxes (7 Percent).
