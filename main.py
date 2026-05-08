@@ -38,7 +38,7 @@ class LogSaver:
                 
     def userPurchase(self, userBuyQuantity, userBuy, formattedPrice):
         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        message = f"[{timestamp}]: {userBuyQuantity} {name} have been purchased for {formattedPrice}\n"
+        message = f"[{timestamp}]: {userBuyQuantity} {userBuy} have been purchased for {formattedPrice}\n"
         with open(self.filename, "a") as file:
             file.write(message)
             
@@ -109,6 +109,11 @@ def user_menu():
         userChoice = int(input())
         if userChoice == 1:
             print("\033c", end="")
+            for name, data in shopItems.items():
+                formattedPrice = f"${data['price']:,.2f}"
+                print(f"{name}: {data['quantity']} units | Price: {formattedPrice}")
+            print("------------------------")
+
             print("What would you like to buy?")
             userBuy = input()
             if userBuy in shopItems:
@@ -126,12 +131,16 @@ def user_menu():
                         print("\033c", end="")
                         print(f"You have bought {userBuyQuantity} {userBuy}s. Thank you for your purchase!")
                         save_data()
+                        logger.userPurchase(userBuyQuantity, userBuy, formattedPrice)
                     if userConfirm == 2:
                         print("\033c", end="")
                         print("Purchase cancelled.")
                 else:
                     print("\033c", end="")
                     print(f"Sorry, there are not enough {userBuy}s in stock.")
+            else:
+                print("\033c", end="")
+                print("Invalid plane name.")
         if userChoice == 2:
             print("\033c", end="")
             print("Exiting...")
@@ -145,17 +154,6 @@ while True:
     passChoice = int(input())
     if passChoice == 1:
         print("\033c", end="")
-        """
-        print ("The User Mode is currently WIP come back later.")
-        print ("Press 3 to return to the main menu. Press 4 to exit.")
-        returnChoice = int(input())
-        if returnChoice == 3:
-            pass
-        if returnChoice == 4:
-            print("\033c", end="")
-            print("Exiting...")
-            break
-            """
         user_menu()
     elif passChoice == 2:
         print("\033c", end="")
