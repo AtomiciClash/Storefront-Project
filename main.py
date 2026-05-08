@@ -17,7 +17,9 @@ def save_data():
     with open("database.txt", "w") as file:
         for name, data in shopItems.items():
             file.write(f"{name}: {data['quantity']}: {data['price']}\n")
-#-----------------------------------------------------------------------------------------------------------------------
+
+#------------------------------------------------------------------------------------------------------------------------------
+
 class LogSaver:
     def __init__(self, filename):
         self.filename = "logs.txt"
@@ -36,12 +38,13 @@ class LogSaver:
                 
     def userPurchase(self, userBuyQuantity, userBuy, formattedPrice):
         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        message = f"[{timestamp}]: {userBuyQuantity} {name} have been purchased for {formattedPrice}"
+        message = f"[{timestamp}]: {userBuyQuantity} {name} have been purchased for {formattedPrice}\n"
         with open(self.filename, "a") as file:
             file.write(message)
-        
-        
+            
+logger = LogSaver("logs.txt")
 #------------------------------------------------------------------------------------------------------------------------------
+
 def main_menu():
     # Basically loop forever
 
@@ -57,6 +60,7 @@ def main_menu():
                 print("\033c", end="")
                 print(f"Added {reqQuantity} {reqItem}s to inventory.")
                 save_data()
+                logger.adminAdd(reqQuantity, reqItem)
             else:
                 print("Invalid plane name.")
 
@@ -69,6 +73,7 @@ def main_menu():
                 print("\033c", end="")
                 print(f"Removed {reqQuantity} {reqItem}s from inventory.")
                 save_data()
+                logger.adminRemove(reqQuantity, reqItem)
 
         elif choice == 3:
             print("\033c", end="")
