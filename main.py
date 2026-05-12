@@ -1,4 +1,5 @@
 import sys
+import re
 from datetime import datetime
 shopItems = {}
 #Dictionary of items and their quantities
@@ -34,8 +35,9 @@ class LogSaver:
     """
 
     def _write_log(self, message):
+        clean_message = re.sub(r'\x1b\[[0-9;]*[a-zA-Z]|\x1bc', '', message)
         with open(self.filename, "a", encoding="utf-8") as file:
-            print(message, file=file, flush=True)
+            file.write(clean_message + "\n")
      # yes I used AI for this but thats because I was confused on how to make it force write. I know how to do it now.
     def adminAdd(self, quantity, name):
         timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
