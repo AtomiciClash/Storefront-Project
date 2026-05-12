@@ -26,31 +26,40 @@ def save_data():
 
 class LogSaver:
     def __init__(self, filename):
-        self.filename = "logs.txt"
+        self.filename = filename 
         self.logs = []
+
+    # Since I used AI, I would like to note what I learned from this block. Firstly, I learned that the encoders are utilized to make sure symbols are written correctly.
+    # I also learned specifically in this example that flushing a file forces it to write to the file.
+
+    def _write_log(self, message):
+        with open(self.filename, "a", encoding="utf-8") as file:
+            print(message, file=file, flush=True)
+     # yes I used AI for this but thats because I was confused on how to make it force write. I know how to do it now.
     def adminAdd(self, quantity, name):
-        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        message = f"[{timestamp}] {quantity} {name} have been added\n"
+        timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        message = f"[{timestamp}] {quantity} {name}s have been added\n"
         with open(self.filename, "a") as file:
             file.write(message)
-                
+
     def adminRemove(self, quantity, name):
-        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        message = f"[{timestamp}] {quantity} {name} have been removed\n"
+        timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        message = f"[{timestamp}] {quantity} {name}s have been removed\n"
         with open(self.filename, "a") as file:
             file.write(message)
-                
+
     def userPurchase(self, userBuyQuantity, userBuy, formattedPrice):
-        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        message = f"[{timestamp}]: {userBuyQuantity} {userBuy} have been purchased for {formattedPrice}\n"
+        timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        message = f"[{timestamp}]: {userBuyQuantity} {userBuy}s have been purchased for {formattedPrice}\n"
         with open(self.filename, "a") as file:
             file.write(message)
-            
-logger = LogSaver("logs.txt")
+
+
+logger = LogSaver('logs.txt')
 #------------------------------------------------------------------------------------------------------------------------------
 
 def main_menu():
-    # Basically loop forever
+
 
     while True:
         choice = int(input("Type 1 to add. Type 2 to remove. Type 3 to see inventory. Type 4 to exit. \n"))
@@ -150,7 +159,7 @@ def user_menu():
             print("Exiting...")
             break
 #------------------------------------------------------------------------------------------------------------------------------
-# Tells python to run main_menu()
+
 while True:
     print("\033c", end="")
     print ("Welcome to Paul's Plane Shop!")
