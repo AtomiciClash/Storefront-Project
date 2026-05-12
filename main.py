@@ -30,32 +30,20 @@ class LogSaver:
         self.filename = filename 
         self.logs = []
 
-    """    
-    Since I used AI, I would like to what I learned from this block. Firstly, I learned that the encoders are utilized to make sure symbols are written correctly. I also learned specificially in this example that flushing a file forces it to write to the file.
-    """
-
     def _write_log(self, message):
-        clean_message = re.sub(r'\x1b\[[0-9;]*[a-zA-Z]|\x1bc', '', message)
-        with open(self.filename, "a", encoding="utf-8") as file:
-            file.write(clean_message + "\n")
-     # yes I used AI for this but thats because I was confused on how to make it force write. I know how to do it now.
+        with open(self.filename, "a") as file:
+            file.write(message + "\n")
+
+    
     def adminAdd(self, quantity, name):
-        timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        clean_name = str(name).strip()
-        msg = f"[{timestamp}] ADDED: {quantity} {clean_name}s"
-        self._write_log(msg)
-
+        time = datetime.now()
+        
+        
     def adminRemove(self, quantity, name):
-        timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        clean_name = str(name).strip()
-        msg = f"[{timestamp}] REMOVED: {quantity} {clean_name}s"
-        self._write_log(msg)
-
+        
+        
     def userPurchase(self, userBuyQuantity, userBuy, formattedPrice):
-        timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        clean_name = str(userBuy).strip()
-        msg = f"[{timestamp}] USER PURCHASED: {userBuyQuantity} {clean_name}s for {formattedPrice}"
-        self._write_log(msg)
+        
 
 
 logger = LogSaver('logs.txt')
