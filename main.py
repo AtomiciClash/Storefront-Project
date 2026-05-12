@@ -29,8 +29,9 @@ class LogSaver:
         self.filename = filename 
         self.logs = []
 
-    # Since I used AI, I would like to note what I learned from this block. Firstly, I learned that the encoders are utilized to make sure symbols are written correctly.
-    # I also learned specifically in this example that flushing a file forces it to write to the file.
+    """    
+    Since I used AI, I would like to what I learned from this block. Firstly, I learned that the encoders are utilized to make sure symbols are written correctly. I also learned specificially in this example that flushing a file forces it to write to the file.
+    """
 
     def _write_log(self, message):
         with open(self.filename, "a", encoding="utf-8") as file:
@@ -38,21 +39,21 @@ class LogSaver:
      # yes I used AI for this but thats because I was confused on how to make it force write. I know how to do it now.
     def adminAdd(self, quantity, name):
         timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        message = f"[{timestamp}] {quantity} {name}s have been added\n"
-        with open(self.filename, "a") as file:
-            file.write(message)
+        clean_name = str(name).strip()
+        msg = f"[{timestamp}] ADDED: {quantity} {clean_name}s"
+        self._write_log(msg)
 
     def adminRemove(self, quantity, name):
         timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        message = f"[{timestamp}] {quantity} {name}s have been removed\n"
-        with open(self.filename, "a") as file:
-            file.write(message)
+        clean_name = str(name).strip()
+        msg = f"[{timestamp}] REMOVED: {quantity} {clean_name}s"
+        self._write_log(msg)
 
     def userPurchase(self, userBuyQuantity, userBuy, formattedPrice):
         timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        message = f"[{timestamp}]: {userBuyQuantity} {userBuy}s have been purchased for {formattedPrice}\n"
-        with open(self.filename, "a") as file:
-            file.write(message)
+        clean_name = str(userBuy).strip()
+        msg = f"[{timestamp}] USER PURCHASED: {userBuyQuantity} {clean_name}s for {formattedPrice}"
+        self._write_log(msg)
 
 
 logger = LogSaver('logs.txt')
@@ -145,7 +146,7 @@ def user_menu():
                         print(f"You have bought {userBuyQuantity} {userBuy}s. Thank you for your purchase!")
                         save_data()
                         logger.userPurchase(userBuyQuantity, userBuy, formattedPrice)
-                    if userConfirm == 2:
+                    elif userConfirm == 2:
                         print("\033c", end="")
                         print("Purchase cancelled.")
                 else:
@@ -154,7 +155,7 @@ def user_menu():
             else:
                 print("\033c", end="")
                 print("Invalid plane name.")
-        if userChoice == 2:
+        elif userChoice == 2:
             print("\033c", end="")
             print("Exiting...")
             break
