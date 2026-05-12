@@ -28,22 +28,22 @@ def save_data():
 class LogSaver:
     def __init__(self, filename):
         self.filename = filename 
-        self.logs = []
 
-    def _write_log(self, message):
-        with open(self.filename, "a") as file:
-            file.write(message + "\n")
-
+    def writeLog(self, logEntry):
+        with open(self.filename, 'a') as file:
+            file.write(logEntry + "\n")
     
-    def adminAdd(self, quantity, name):
-        time = datetime.now()
-        
-        
-    def adminRemove(self, quantity, name):
-        
-        
-    def userPurchase(self, userBuyQuantity, userBuy, formattedPrice):
-        
+    def adminAdd(self, quantity, item):
+        logEntry = f"Admin added {quantity} {item}s to inventory."
+        self.writeLog(logEntry)
+
+    def adminRemove(self, quantity, item):
+        logEntry = f"Admin removed {quantity} {item}s from inventory."
+        self.writeLog(logEntry)
+
+    def userPurchase(self, quantity, item, price):
+        logEntry = f"User purchased {quantity} {item}s for {price}."
+        self.writeLog(logEntry)
 
 
 logger = LogSaver('logs.txt')
@@ -135,7 +135,7 @@ def user_menu():
                         print("\033c", end="")
                         print(f"You have bought {userBuyQuantity} {userBuy}s. Thank you for your purchase!")
                         save_data()
-                        logger.userPurchase(userBuyQuantity, userBuy, formattedPrice)
+                        logger.userPurchase(userBuyQuantity, userBuy, formattedPrice) 
                     elif userConfirm == 2:
                         print("\033c", end="")
                         print("Purchase cancelled.")
