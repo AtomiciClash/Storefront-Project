@@ -1,33 +1,41 @@
-entrypoint = "index.html"
-modules = ["python-3.11", "web"]
+hidden=[ ".config" ]
 
 [nix]
-channel = "stable-24_11"
-packages = ["static-web-server"]
+channel = "stable-22_11"
 
+# Development Server Configuration
 [deployment]
-publicDir = "/"
-deploymentTarget = "static"
+run = "python main.py"
 
-[workflows]
-runButton = "Serve static"
+[languages.python]
+pattern = "**/*.py"
 
-[[workflows.workflow]]
-name = "Serve static"
-mode = "parallel"
+[languages.python.languageServer]
+start = "pyright-langserver --stdio"
 
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "python3 main.py"
+[languages.python.languageServer.initializationOptions]
+provideFormatter = true
 
-[[ports]]
-localPort = 80
-externalPort = 80
+[languages.python.languageServer.configuration.python]
+analysis.typeCheckingMode = "basic"
+analysis.autoSearchPaths = true
+analysis.useLibraryCodeForTypes = true
+
+[languages.python.languageServer.configuration.python.formatting]
+provider = "black"
+
+[languages.python.languageServer.configuration.python.linting]
+enabled = true
+pylintEnabled = true
+
+# Environment variables required for Flask debugging
+[env]
+FLASK_APP = "main.py"
+FLASK_ENV = "development"
+FLASK_DEBUG = "1"
+
+[gitHubImport]
+requiredFiles = [ ".replit" , "replit.nix" , ".config" ]
 
 [agent]
 expertMode = true
-
-[userenv]
-
-[userenv.shared]
-password = "yuhui"

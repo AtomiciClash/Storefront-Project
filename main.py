@@ -1,6 +1,20 @@
+
 import sys
 import re
 from datetime import datetime
+print("Starting program...")
+
+"""
+import tkinter
+import tkinter.ttk as ttk
+from tktooltip import ToolTip
+
+app = tk.Tk()
+b = ttk.Button(app, text="Button")
+b.pack()
+ToolTip(b, msg="Hover info")
+app.mainloop()
+"""
 shopItems = {}
 #Dictionary of items and their quantities
 
@@ -13,9 +27,8 @@ with open("database.txt", "r") as file:
             name = parts[0].strip()
             quantity = int(parts[1].strip())
 
-            price = float(parts[2].strip()) if len(parts) > 2 else 0.0
+            price = float(parts[2].strip())
 
-            # This creates the nested dictionary
             shopItems[name] = {"quantity": quantity, "price": price}
 #------------------------------------------------------------------------------------------------------------------------------
 def save_data():
@@ -23,26 +36,53 @@ def save_data():
         for name, data in shopItems.items():
             file.write(f"{name}: {data['quantity']}: {data['price']}\n")
 
+
+#------------------------------------------------------------------------------------------------------------------------------
+class TryBlocks:
+    def __init__(self):
+        pass
+        
+    def integerTry(self):
+        while True:
+            try:
+                return int(input())
+            except ValueError:
+                print("\033c", end="")
+                print("Error: Please enter a valid number.")
+                
+    def strTry(self):
+        while True:
+            try:
+                return str(input())
+            except ValueError:
+                print("\033c", end="")
+                print("Error: Please enter a valid plane.")
+            
+tryBlocks = TryBlocks()
 #------------------------------------------------------------------------------------------------------------------------------
 
 class LogSaver:
     def __init__(self, filename):
         self.filename = filename 
 
-    def writeLog(self, logEntry):
+    def writeLog(self, message):
+        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        safeMessage = message.replace("\033c", "").replace("$", "")
         with open(self.filename, 'a') as file:
-            file.write(logEntry + "\n")
+            file.write(f"[{timestamp}]: {safeMessage}" + "\n")
+            file.flush()
     
-    def adminAdd(self, quantity, item):
-        logEntry = f"Admin added {quantity} {item}s to inventory."
+    def adminAdd(self, reqQuantity, reqItem):
+        logEntry = f"Admin ADDED {reqQuantity} {reqItem}s to inventory"
         self.writeLog(logEntry)
 
-    def adminRemove(self, quantity, item):
-        logEntry = f"Admin removed {quantity} {item}s from inventory."
+    def adminRemove(self, reqQuantity, reqItem):
+        logEntry = f"Admin REMOVED {reqQuantity} {reqItem}s from inventory"
         self.writeLog(logEntry)
 
-    def userPurchase(self, quantity, item, price):
-        logEntry = f"User purchased {quantity} {item}s for {price}."
+    def userPurchase(self, userBuyQuantity, userBuy, taxedPrice):
+        taxedPrice = f"{(taxedPrice):,.2f}"
+        logEntry = f"User PURCHASED {userBuyQuantity} {userBuy}s for {taxedPrice} USD"
         self.writeLog(logEntry)
 
 
@@ -53,31 +93,37 @@ def main_menu():
 
 
     while True:
-        choice = int(input("Type 1 to add. Type 2 to remove. Type 3 to see inventory. Type 4 to exit. \n"))
-
+        print("Type 1 to add. Type 2 to remove. Type 3 to see inventory. Type 4 to exit. \n")
+        choice = tryBlocks.integerTry()
         if choice == 1:
             print("\033c", end="")
-            reqItem = input("What would you like to add to?\n")
+            print("What would you like to add to?")
+            reqItem = tryBlocks.strTry()
             if reqItem in shopItems:
-                reqQuantity = input(f"How many {reqItem}s to add?\n")
+                print(f"How many {reqItem}s would you like to add?")
+                reqQuantity = tryBlocks.integerTry()
                 shopItems[reqItem]["quantity"] += int(reqQuantity) 
-                print("\033c", end="")
+
                 print(f"Added {reqQuantity} {reqItem}s to inventory.")
                 save_data()
                 logger.adminAdd(reqQuantity, reqItem)
+                input("\nPress Enter to return to the menu...")
             else:
                 print("Invalid plane name.")
 
         elif choice == 2:
             print("\033c", end="")
-            reqItem = input("What would you like to remove from?\n")
+            print("What would you like to remove from?")
+            reqItem = tryBlocks.strTry()
             if reqItem in shopItems:
-                reqQuantity = input(f"How many {reqItem}s to remove?\n")
+                print(f"How many {reqItem}s would you like to remove?")
+                reqQuantity = tryBlocks.integerTry()
                 shopItems[reqItem]["quantity"] -= int(reqQuantity)
-                print("\033c", end="")
+
                 print(f"Removed {reqQuantity} {reqItem}s from inventory.")
                 save_data()
                 logger.adminRemove(reqQuantity, reqItem)
+                input("\nPress Enter to return to the menu...")
 
         elif choice == 3:
             print("\033c", end="")
@@ -119,23 +165,23 @@ def user_menu():
             print("------------------------")
 
             print("What would you like to buy?")
-            userBuy = input()
+            userBuy = tryBlocks.strTry()
             if userBuy in shopItems:
                 print(f"How many {userBuy}s would you like to buy?")
-                userBuyQuantity = int(input())
+                userBuyQuantity = tryBlocks.integerTry()
                 if userBuyQuantity <= shopItems[userBuy]["quantity"]:
                     taxedPrice = shopItems[userBuy]["price"] * userBuyQuantity * 1.07
                     formattedPrice = f"${taxedPrice:,.2f}"
                     print("\033c", end="")
                     print(f"You are going to buy {userBuyQuantity} {userBuy}s. The total price is {formattedPrice}.\n")
                     print("Press 1 to confirm. Press 2 to cancel.")
-                    userConfirm = int(input())
+                    userConfirm = tryBlocks.integerTry()
                     if userConfirm == 1:
                         shopItems[userBuy]["quantity"] -= userBuyQuantity
-                        print("\033c", end="")
                         print(f"You have bought {userBuyQuantity} {userBuy}s. Thank you for your purchase!")
                         save_data()
-                        logger.userPurchase(userBuyQuantity, userBuy, formattedPrice) 
+                        logger.userPurchase(userBuyQuantity, userBuy, taxedPrice)
+                        input("\nPress Enter to return to the menu...")
                     elif userConfirm == 2:
                         print("\033c", end="")
                         print("Purchase cancelled.")
@@ -155,7 +201,7 @@ while True:
     print("\033c", end="")
     print ("Welcome to Paul's Plane Shop!")
     print("Press 1 for User Mode. Press 2 for Admin Mode. Press 3 to exit.")
-    passChoice = int(input())
+    passChoice = tryBlocks.integerTry()
     if passChoice == 1:
         print("\033c", end="")
         user_menu()
@@ -163,18 +209,17 @@ while True:
         print("\033c", end="")
         print("Enter Password:")
         password = "yuhui"
-        userpass = input()
-        while True:
-            if userpass == password:
-                print("\033c", end="")
-                print("Welcome, User")
-                main_menu()
-                break
-            else:
-                print("\033c", end="")
-                print("Invalid Password, Please try again:")
-                userpass = input()
-                print("\033c", end="")
+        userpass = tryBlocks.strTry()
+        if userpass == password:
+            print("\033c", end="")
+            print("Welcome, User")
+            main_menu()
+            break
+        else:
+            print("\033c", end="")
+            print("Invalid Password, Please try again:")
+            userpass = tryBlocks.strTry()
+            print("\033c", end="")
 
     elif passChoice == 3:
          print("\033c", end="")

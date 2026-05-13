@@ -1,0 +1,7 @@
+modules = ["python-3.10", "tkinter"]
+
+[nix]
+channel = "stable-23_11"
+
+[run]
+command = "python main.py"

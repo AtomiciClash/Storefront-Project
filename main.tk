@@ -1,0 +1,15 @@
+import tkinter as tk
+root = tk.Tk()
+root.title("Basic Pack Example")
+root.geometry("400x300")
+
+# Create three buttons with different background colors
+button1 = tk.Button(root, text="Button 1", bg="lightblue", width=10, height=2)
+button2 = tk.Button(root, text="Button 2", bg="lightgreen", width=10, height=2)
+button3 = tk.Button(root, text="Button 3", bg="lightyellow", width=10, height=2) 
+
+# Pack all buttons at the top of the window 
+button1.pack(side=tk.TOP) 
+button2.pack(side=tk.LEFT) 
+button3.pack(side=tk.BOTTOM)
+root.mainloop()
