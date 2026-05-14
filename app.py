@@ -1,16 +1,13 @@
-"""import tkinter as tk
+import tkinter as tk
+root = tk.Tk()
+root.title("Basic Grid Example")
+root.geometry("400x300")
 
-def launch_ui():
-    # Initialize the main window
-    root = tk.Tk()
-    root.title("My App Window")
-    root.geometry("300x200")
+# Create labels for the 3x3 grid
+for row in range(3):
+    for col in range(3):
+        label = tk.Label(root, text=f"Row {row}, Col {col}", 
+   borderwidth=1, relief="solid", width=10, height=3)
+        label.grid(row=row, column=col, padx=2, pady=2)
 
-    # Add components
-    label = tk.Label(root, text="Connected to main.py successfully!")
-    label.pack(pady=50)
-
-    # Start the application loop
-    # Note: This will pause main.py until you close this window
-    root.mainloop()
-    """
+root.mainloop()
