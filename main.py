@@ -1,46 +1,54 @@
 import sys
 import re
 import time
+import threading
+import os
 from datetime import datetime
-import tkinter as tk
 
 def show_splash():
-    splash = tk.Tk()
-    splash.title("Paul's Plane Shop")
-    splash.geometry("400x220")
-    splash.resizable(False, False)
-    splash.configure(bg="#1a1a2e")
-    splash.overrideredirect(True)
+    try:
+        import tkinter as tk
+        splash = tk.Tk()
+        splash.title("Paul's Plane Shop")
+        splash.geometry("400x220")
+        splash.resizable(False, False)
+        splash.configure(bg="#1a1a2e")
+        splash.overrideredirect(True)
 
-    screen_w = splash.winfo_screenwidth()
-    screen_h = splash.winfo_screenheight()
-    x = (screen_w // 2) - 200
-    y = (screen_h // 2) - 110
-    splash.geometry(f"400x220+{x}+{y}")
+        screen_w = splash.winfo_screenwidth()
+        screen_h = splash.winfo_screenheight()
+        x = (screen_w // 2) - 200
+        y = (screen_h // 2) - 110
+        splash.geometry(f"400x220+{x}+{y}")
 
-    tk.Label(splash, text="✈  Paul's Plane Shop", font=("Helvetica", 20, "bold"),
-             bg="#1a1a2e", fg="#e0e0e0").pack(pady=35)
-    tk.Label(splash, text="Loading inventory...", font=("Helvetica", 11),
-             bg="#1a1a2e", fg="#a0a0c0").pack()
+        tk.Label(splash, text="✈  Paul's Plane Shop", font=("Helvetica", 20, "bold"),
+                 bg="#1a1a2e", fg="#e0e0e0").pack(pady=35)
+        tk.Label(splash, text="Loading inventory...", font=("Helvetica", 11),
+                 bg="#1a1a2e", fg="#a0a0c0").pack()
 
-    bar_frame = tk.Frame(splash, bg="#1a1a2e")
-    bar_frame.pack(pady=20)
-    canvas = tk.Canvas(bar_frame, width=300, height=16, bg="#2e2e4e", highlightthickness=0)
-    canvas.pack()
-    bar = canvas.create_rectangle(0, 0, 0, 16, fill="#5c7cfa", outline="")
+        bar_frame = tk.Frame(splash, bg="#1a1a2e")
+        bar_frame.pack(pady=20)
+        canvas = tk.Canvas(bar_frame, width=300, height=16, bg="#2e2e4e", highlightthickness=0)
+        canvas.pack()
+        bar = canvas.create_rectangle(0, 0, 0, 16, fill="#5c7cfa", outline="")
 
-    def animate(step=0):
-        width = int((step / 30) * 300)
-        canvas.coords(bar, 0, 0, width, 16)
-        if step < 30:
-            splash.after(50, animate, step + 1)
-        else:
-            splash.after(400, splash.destroy)
+        def animate(step=0):
+            width = int((step / 30) * 300)
+            canvas.coords(bar, 0, 0, width, 16)
+            if step < 30:
+                splash.after(50, animate, step + 1)
+            else:
+                splash.after(400, splash.destroy)
 
-    animate()
-    splash.mainloop()
+        animate()
+        splash.mainloop()
+    except Exception:
+        pass
 
-show_splash()
+os.environ.setdefault("DISPLAY", ":0")
+splash_thread = threading.Thread(target=show_splash, daemon=True)
+splash_thread.start()
+splash_thread.join(timeout=3)
 
 
 

@@ -72,11 +72,11 @@ name = "Start application"
 author = "agent"
 
 [workflows.workflow.metadata]
-outputType = "vnc"
+outputType = "console"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "python main.py"
+args = "DISPLAY=:0 python main.py"
 
 [agent]
 expertMode = true
