@@ -1,25 +1,16 @@
-
 import sys
 import re
 from datetime import datetime
+
 print("Starting program...")
 
-"""
-import tkinter
-import tkinter.ttk as ttk
-from tktooltip import ToolTip
 
-app = tk.Tk()
-b = ttk.Button(app, text="Button")
-b.pack()
-ToolTip(b, msg="Hover info")
-app.mainloop()
-"""
+
 shopItems = {}
-#Dictionary of items and their quantities
+# Dictionary of items and their quantities
 
 
-#------------------------------------------------------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------------------------------------------------------
 with open("database.txt", "r") as file:
     for line in file:
         if ":" in line:
@@ -30,18 +21,20 @@ with open("database.txt", "r") as file:
             price = float(parts[2].strip())
 
             shopItems[name] = {"quantity": quantity, "price": price}
-#------------------------------------------------------------------------------------------------------------------------------
+
+
+# ------------------------------------------------------------------------------------------------------------------------------
 def save_data():
     with open("database.txt", "w") as file:
         for name, data in shopItems.items():
             file.write(f"{name}: {data['quantity']}: {data['price']}\n")
 
 
-#------------------------------------------------------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------------------------------------------------------
 class TryBlocks:
     def __init__(self):
         pass
-        
+
     def integerTry(self):
         while True:
             try:
@@ -49,7 +42,7 @@ class TryBlocks:
             except ValueError:
                 print("\033c", end="")
                 print("Error: Please enter a valid number.")
-                
+
     def strTry(self):
         while True:
             try:
@@ -57,21 +50,23 @@ class TryBlocks:
             except ValueError:
                 print("\033c", end="")
                 print("Error: Please enter a valid plane.")
-            
+
+
 tryBlocks = TryBlocks()
-#------------------------------------------------------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------------------------------------------------------
+
 
 class LogSaver:
     def __init__(self, filename):
-        self.filename = filename 
+        self.filename = filename
 
     def writeLog(self, message):
         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         safeMessage = message.replace("\033c", "").replace("$", "")
-        with open(self.filename, 'a') as file:
+        with open(self.filename, "a") as file:
             file.write(f"[{timestamp}]: {safeMessage}" + "\n")
             file.flush()
-    
+
     def adminAdd(self, reqQuantity, reqItem):
         logEntry = f"Admin ADDED {reqQuantity} {reqItem}s to inventory"
         self.writeLog(logEntry)
@@ -86,14 +81,15 @@ class LogSaver:
         self.writeLog(logEntry)
 
 
-logger = LogSaver('logs.txt')
-#------------------------------------------------------------------------------------------------------------------------------
+logger = LogSaver("logs.txt")
+# ------------------------------------------------------------------------------------------------------------------------------
+
 
 def main_menu():
-
-
     while True:
-        print("Type 1 to add. Type 2 to remove. Type 3 to see inventory. Type 4 to exit. \n")
+        print(
+            "Type 1 to add. Type 2 to remove. Type 3 to see inventory. Type 4 to exit."
+        )
         choice = tryBlocks.integerTry()
         if choice == 1:
             print("\033c", end="")
@@ -102,7 +98,7 @@ def main_menu():
             if reqItem in shopItems:
                 print(f"How many {reqItem}s would you like to add?")
                 reqQuantity = tryBlocks.integerTry()
-                shopItems[reqItem]["quantity"] += int(reqQuantity) 
+                shopItems[reqItem]["quantity"] += int(reqQuantity)
 
                 print(f"Added {reqQuantity} {reqItem}s to inventory.")
                 save_data()
@@ -132,21 +128,20 @@ def main_menu():
                 formattedPrice = f"${data['price']:,.2f}"
                 print(f"{name}: {data['quantity']} units | Price: {formattedPrice}")
             print("------------------------")
-        
+
         elif choice == 4:
             print("Exiting...")
             save_data()
             sys.exit()
 
         else:
-
             print("Select something from the menu chud")
-#------------------------------------------------------------------------------------------------------------------------------
+
+
+# ------------------------------------------------------------------------------------------------------------------------------
 def user_menu():
     print("\033c", end="")
     print("Welcome to the User Menu")
-    
-    
 
     while True:
         print("\033c", end="")
@@ -173,12 +168,16 @@ def user_menu():
                     taxedPrice = shopItems[userBuy]["price"] * userBuyQuantity * 1.07
                     formattedPrice = f"${taxedPrice:,.2f}"
                     print("\033c", end="")
-                    print(f"You are going to buy {userBuyQuantity} {userBuy}s. The total price is {formattedPrice}.\n")
+                    print(
+                        f"You are going to buy {userBuyQuantity} {userBuy}s. The total price is {formattedPrice}."
+                    )
                     print("Press 1 to confirm. Press 2 to cancel.")
                     userConfirm = tryBlocks.integerTry()
                     if userConfirm == 1:
                         shopItems[userBuy]["quantity"] -= userBuyQuantity
-                        print(f"You have bought {userBuyQuantity} {userBuy}s. Thank you for your purchase!")
+                        print(
+                            f"You have bought {userBuyQuantity} {userBuy}s. Thank you for your purchase!"
+                        )
                         save_data()
                         logger.userPurchase(userBuyQuantity, userBuy, taxedPrice)
                         input("\nPress Enter to return to the menu...")
@@ -195,11 +194,13 @@ def user_menu():
             print("\033c", end="")
             print("Exiting...")
             break
-#------------------------------------------------------------------------------------------------------------------------------
+
+
+# ------------------------------------------------------------------------------------------------------------------------------
 
 while True:
     print("\033c", end="")
-    print ("Welcome to Paul's Plane Shop!")
+    print("Welcome to Paul's Plane Shop!")
     print("Press 1 for User Mode. Press 2 for Admin Mode. Press 3 to exit.")
     passChoice = tryBlocks.integerTry()
     if passChoice == 1:
@@ -222,10 +223,7 @@ while True:
             print("\033c", end="")
 
     elif passChoice == 3:
-         print("\033c", end="")
-         print("Exiting...")
-         break
-    
-
-
+        print("\033c", end="")
+        print("Exiting...")
+        break
 

@@ -7,3 +7,5 @@
 [2026-05-13 18:49:08]: Admin ADDED 2 F-16 Vipers to inventory
 [2026-05-13 18:52:37]: User PURCHASED 2 C-17 Globemaster IIIs for 727,600,000.00 USD
 [2026-05-13 19:10:21]: User PURCHASED 4 F-15 Eagles for 402,320,000.00 USD
+[2026-05-14 18:43:59]: Admin ADDED 2 F-16 Vipers to inventory
+[2026-05-14 18:49:46]: User PURCHASED 2 F-35B Lightning IIs for 176,550,000.00 USD

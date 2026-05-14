@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Paul's Plane Shop</title>
+</head>
+<body>
+    <h1>Welcome to the Shop</h1>
+    <div id="status">Loading inventory...</div>
+
+    <script>
+        // This is the "hook" that talks to your Python code
+        async function getInventory() {
+            const response = await fetch('/inventory');
+            const data = await response.json();
+            document.getElementById('status').innerText = "Items: " + JSON.stringify(data);
+        }
+        getInventory();
+    </script>
+</body>
+</html>

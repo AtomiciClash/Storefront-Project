@@ -1,4 +1,5 @@
 hidden=[ ".config" ]
+modules = ["python-3.11"]
 
 [nix]
 channel = "stable-22_11"
@@ -36,6 +37,25 @@ FLASK_DEBUG = "1"
 
 [gitHubImport]
 requiredFiles = [ ".replit" , "replit.nix" , ".config" ]
+
+[[ports]]
+localPort = 8080
+externalPort = 80
+
+[workflows]
+
+[[workflows.workflow]]
+name = "FullStack"
+mode = "parallel"
+author = 17955053
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "python main.py"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "source venv/bin/activate && python main.py"
 
 [agent]
 expertMode = true
