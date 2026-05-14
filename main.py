@@ -88,8 +88,6 @@ class TryBlocks:
             except ValueError:
                 print("\033c", end="")
                 print("Error: Please enter a valid number.")
-            except EOFError:
-                sys.exit()
 
     def strTry(self):
         while True:
@@ -98,8 +96,6 @@ class TryBlocks:
             except ValueError:
                 print("\033c", end="")
                 print("Error: Please enter a valid plane.")
-            except EOFError:
-                sys.exit()
 
 
 tryBlocks = TryBlocks()
@@ -201,7 +197,7 @@ def user_menu():
             print(f"{name}: {data['quantity']} units | Price: {formattedPrice}")
         print("------------------------")
         print("Press 1 to buy. Press 2 to exit.")
-        userChoice = tryBlocks.integerTry()
+        userChoice = int(input())
         if userChoice == 1:
             print("\033c", end="")
             for name, data in shopItems.items():

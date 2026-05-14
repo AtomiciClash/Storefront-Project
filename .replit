@@ -46,6 +46,19 @@ externalPort = 80
 runButton = "Project"
 
 [[workflows.workflow]]
+name = "FullStack"
+mode = "parallel"
+author = 17955053
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "python main.py"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "source venv/bin/activate && python main.py"
+
+[[workflows.workflow]]
 name = "Project"
 mode = "parallel"
 author = "agent"
