@@ -1,8 +1,25 @@
 import sys
 import re
+import time
 from datetime import datetime
 
-print("Starting program...")
+def show_loader():
+    bar_length = 30
+    print("\033c", end="")
+    print("=" * 42)
+    print("        ✈   Paul's Plane Shop   ✈")
+    print("=" * 42)
+    print("\n  Loading inventory...\n")
+    for i in range(bar_length + 1):
+        filled = "█" * i
+        empty = "░" * (bar_length - i)
+        percent = int((i / bar_length) * 100)
+        print(f"  [{filled}{empty}] {percent}%", end="\r")
+        time.sleep(0.04)
+    print(f"  [{'█' * bar_length}] 100%")
+    time.sleep(0.3)
+
+show_loader()
 
 
 
