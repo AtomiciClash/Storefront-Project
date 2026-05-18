@@ -123,7 +123,7 @@ class PlaneShopApp:
         self.user_qty_entry = tk.Entry(user_frame, width=27)
         self.user_qty_entry.grid(row=1, column=1, padx=10, pady=10)
 
-        tk.Button(user_frame, text="Purchase Items", bg="#2196f3", fg="white", padx=20, command=self.user_purchase).grid(row=2, column=0, columnspan=2, pady=15)
+        tk.Button(user_frame, text="Purchase Items", bg="#2196f3", fg="black", padx=20, command=self.user_purchase).grid(row=2, column=0, columnspan=2, pady=15)
 
     def get_inputs(self, combo, entry):
         item = combo.get()
