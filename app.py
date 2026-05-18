@@ -108,8 +108,8 @@ class PlaneShopApp:
         btn_frame = tk.Frame(admin_frame)
         btn_frame.grid(row=2, column=0, columnspan=2, pady=15)
 
-        tk.Button(btn_frame, text="Add To Stock", bg="#4caf50", fg="white", padx=10, command=self.admin_add).pack(side="left", padx=10)
-        tk.Button(btn_frame, text="Remove From Stock", bg="#f44336", fg="white", padx=10, command=self.admin_remove).pack(side="left", padx=10)
+        tk.Button(btn_frame, text="Add To Stock", bg="#4caf50", fg="black", padx=10, command=self.admin_add).pack(side="left", padx=10)
+        tk.Button(btn_frame, text="Remove From Stock", bg="#f44336", fg="black", padx=10, command=self.admin_remove).pack(side="left", padx=10)
 
     def setup_user_tab(self):
         user_frame = tk.Frame(self.notebook)
