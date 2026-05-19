@@ -4,7 +4,7 @@ import time
 import threading
 import os
 from datetime import datetime
-
+""" AIIII
 def show_splash():
     try:
         import tkinter as tk
@@ -49,7 +49,7 @@ os.environ.setdefault("DISPLAY", ":0")
 splash_thread = threading.Thread(target=show_splash, daemon=True)
 splash_thread.start()
 splash_thread.join(timeout=3)
-
+"""
 
 
 shopItems = {}
