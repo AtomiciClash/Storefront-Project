@@ -1,5 +1,5 @@
 F/A-18 Hornet: 26: 67000000.0
-F-16 Viper: 36: 60000000.0
+F-16 Viper: 34: 60000000.0
 C-17 Globemaster III: 10: 340000000.0
 F-15 Eagle: 26: 94000000.0
 F-35B Lightning II: 18: 82500000.0
