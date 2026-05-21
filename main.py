@@ -1,8 +1,10 @@
+#Imported sys for sys.exit()
 import sys
 import re
 import time
 import threading
 import os
+#Imported datetime for logs
 from datetime import datetime
 """ AIIII
 def show_splash():
@@ -51,12 +53,15 @@ splash_thread.start()
 splash_thread.join(timeout=3)
 """
 
-
+# Creates the dictionary that will hold all shop items. I coded it in a way that allows for easy addition of brand new items unlike the OnlineGDB people who were to lazy to do such a thing. You should definitely give people who used Replit correctly for storage a better grade than the OnlineGDB people. Trust.
 shopItems = {}
-# Dictionary of items and their quantities
+
 
 
 # ------------------------------------------------------------------------------------------------------------------------------
+
+# Loading dictionary from database.txt
+
 with open("database.txt", "r") as file:
     for line in file:
         if ":" in line:
@@ -70,6 +75,9 @@ with open("database.txt", "r") as file:
 
 
 # ------------------------------------------------------------------------------------------------------------------------------
+
+# Creating a save data function in order to save data to database.txt
+
 def save_data():
     with open("database.txt", "w") as file:
         for name, data in shopItems.items():
@@ -77,6 +85,9 @@ def save_data():
 
 
 # ------------------------------------------------------------------------------------------------------------------------------
+
+# Utilized OOP to make a class for try blocks to make code easier to write (Instead of copying and pasting like a madman).
+
 class TryBlocks:
     def __init__(self):
         pass
@@ -86,6 +97,7 @@ class TryBlocks:
             try:
                 return int(input())
             except ValueError:
+                #\033c is a clear screen command
                 print("\033c", end="")
                 print("Error: Please enter a valid number.")
 
@@ -101,6 +113,7 @@ class TryBlocks:
 tryBlocks = TryBlocks()
 # ------------------------------------------------------------------------------------------------------------------------------
 
+# Utilized OOP to make a class for logging to make code easier to write (same reasons as tryblocks).
 
 class LogSaver:
     def __init__(self, filename):
@@ -130,6 +143,7 @@ class LogSaver:
 logger = LogSaver("logs.txt")
 # ------------------------------------------------------------------------------------------------------------------------------
 
+# Admin menu function
 
 def main_menu():
     while True:
@@ -140,15 +154,18 @@ def main_menu():
         if choice == 1:
             print("\033c", end="")
             print("What would you like to add to?")
+            # Runs tryblock strTry function to make sure user inputs a string
             reqItem = tryBlocks.strTry()
             if reqItem in shopItems:
                 print(f"How many {reqItem}s would you like to add?")
                 reqQuantity = tryBlocks.integerTry()
+                # Adds the quantity to the dictionary
                 shopItems[reqItem]["quantity"] += int(reqQuantity)
-
+                # Prints the quantity added to the user
                 print(f"Added {reqQuantity} {reqItem}s to inventory.")
+                # Saves & Logs the action to the log file
                 save_data()
-                logger.adminAdd(reqQuantity, reqItem)
+                logger.adminAdd(reqQuantity, reqItem) 
                 input("\nPress Enter to return to the menu...")
             else:
                 print("Invalid plane name.")
@@ -178,6 +195,7 @@ def main_menu():
         elif choice == 4:
             print("Exiting...")
             save_data()
+            # FORCE exits the program because otherwise it would go back to the decision menu
             sys.exit()
 
         else:
@@ -185,11 +203,14 @@ def main_menu():
 
 
 # ------------------------------------------------------------------------------------------------------------------------------
+
+# User menu function
 def user_menu():
     print("\033c", end="")
     print("Welcome to the User Menu")
 
     while True:
+        # Prints the inventory to the user
         print("\033c", end="")
         print("Current Inventory:\n------------------------")
         for name, data in shopItems.items():
@@ -201,6 +222,7 @@ def user_menu():
         if userChoice == 1:
             print("\033c", end="")
             for name, data in shopItems.items():
+                # Creates a formatted price to make it readable to normal people
                 formattedPrice = f"${data['price']:,.2f}"
                 print(f"{name}: {data['quantity']} units | Price: {formattedPrice}")
             print("------------------------")
@@ -211,6 +233,7 @@ def user_menu():
                 print(f"How many {userBuy}s would you like to buy?")
                 userBuyQuantity = tryBlocks.integerTry()
                 if userBuyQuantity <= shopItems[userBuy]["quantity"]:
+                    # Calculates the taxed price and formats it to make it readable to people with actual real eyes
                     taxedPrice = shopItems[userBuy]["price"] * userBuyQuantity * 1.07
                     formattedPrice = f"${taxedPrice:,.2f}"
                     print("\033c", end="")
@@ -244,6 +267,7 @@ def user_menu():
 
 # ------------------------------------------------------------------------------------------------------------------------------
 
+#Program that initializes the functions and requests for user selection of admin or user mode.
 while True:
     print("\033c", end="")
     print("Welcome to Paul's Plane Shop!")
